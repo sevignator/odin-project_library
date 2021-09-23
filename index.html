@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" class="no-animation">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project: Library</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/display-mode.js" defer></script>
+  <script src="./js/library.js" defer></script>
+</head>
+
+<body>
+  <nav class="main-nav">
+    <div class="wrapper nav-flex">
+      <h1>The Odin Library</h1>
+      <div class="main-nav__options">
+        <button class="button-icon display-mode-button"><i class="fas"></i></button>
+        <button class="button-icon add-book-button"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <section class="wrapper">
+      <div class="book-grid"></div>
+    </section>
+
+    <!-- Form for adding a new book entry -->
+    <aside class="modal js-add-book">
+      <div class="modal-body">
+        <button class="button-icon close-button"><i class="fas fa-times"></i></button>
+        <h2>Add a new book</h2>
+        <form class="js-add-book-form" action="#">
+          <div class="input-group">
+            <label for="book-title">Title</label>
+            <input id="book-title" type="text" required>
+          </div>
+          <div class="input-group">
+            <label for="book-author">Author</label>
+            <input id="book-author" type="text" required>
+          </div>
+          <div class="input-group">
+            <label for="book-pages">Total pages</label>
+            <input id="book-pages" type="number" required>
+          </div>
+          <button type="submit" class="button-rounded">Add</button>
+        </form>
+      </div>
+    </aside>
+
+    <!-- Form for editing an existing book entry -->
+    <aside class="modal js-edit-book">
+      <div class="modal-body">
+        <button class="button-icon close-button"><i class="fas fa-times"></i></button>
+        <h2>Edit book details</h2>
+        <form class="js-edit-book-form" action="#">
+          <div class="input-group">
+            <label for="book-title">Title</label>
+            <input id="book-title" type="text" required>
+          </div>
+          <div class="input-group">
+            <label for="book-author">Author</label>
+            <input id="book-author" type="text" required>
+          </div>
+          <div class="input-group">
+            <label for="book-progress">Your current page</label>
+            <input id="book-progress" type="number" required>
+          </div>
+          <div class="input-group">
+            <label for="book-pages">Total pages</label>
+            <input id="book-pages" type="number" required>
+          </div>
+          <button type="submit" class="button-rounded">Save</button>
+        </form>
+      </div>
+    </aside>
+  </main>
+
+</body>
+
+</html>
