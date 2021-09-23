@@ -10,17 +10,18 @@ let lastEditedId = null;
 function Library() {
   this.books = [];
 }
-Library.prototype.addBook = function (title, author, pages) {
-  const newBook = new Book(title, author, pages);
-  this.books.push(newBook);
-};
-Library.prototype.removeBook = function (bookId) {
-  const bookIndex = this.books.findIndex(book => book.id === bookId);
-  console.log(bookIndex);
-  this.books.splice(bookIndex, 1);
-};
-Library.prototype.findBook = function (bookId) {
-  return this.books.find(book => book.id === bookId);
+Library.prototype = {
+  addBook: function (title, author, pages) {
+    const newBook = new Book(title, author, pages);
+    this.books.push(newBook);
+  },
+  removeBook: function (bookId) {
+    const bookIndex = this.books.findIndex(book => book.id === bookId);
+    this.books.splice(bookIndex, 1);
+  },
+  findBook: function (bookId) {
+    return this.books.find(book => book.id === bookId);
+  },
 };
 
 // Book constructor definition
@@ -33,13 +34,15 @@ function Book(title, author, pages) {
   this._progress = 0;
   this._read = false;
 }
-Book.prototype.info = function () {
-  const message = this.read ? 'has been read' : 'not read yet';
-  return `${this.title} by ${this.author}, ${this.pages} pages, ${message}`;
-};
-Book.prototype.updateProgress = function (page) {
-  if (page > this.pages) return;
-  this.progress = page;
+Book.prototype = {
+  info: function () {
+    const message = this.read ? 'has been read' : 'not read yet';
+    return `${this.title} by ${this.author}, ${this.pages} pages, ${message}`;
+  },
+  updateProgress: function (page) {
+    if (page > this.pages) return;
+    this.progress = page;
+  },
 };
 Object.defineProperty(Book.prototype, 'pages', {
   get() {
@@ -178,15 +181,21 @@ function uuidv4() {
 }
 
 function getStorage() {
-  const myBooks = JSON.parse(window.localStorage.getItem('myBooks'));
+  // Retrieve stored books and convert them to JS objects
+  const storedBooks = JSON.parse(window.localStorage.getItem('myBooks'));
 
-  myBooks.forEach(book => {
-    Object.setPrototypeOf(book, Book.prototype);
+  // Iterate over each stored object, and create a new Book object
+  // by using Object.create() to assign its prototype
+  storedBooks.forEach(book => {
+    const newBook = Object.create(Book.prototype);
+    newBook.id = book.id;
+    newBook.title = book.title;
+    newBook.author = book.author;
+    newBook._pages = book._pages;
+    newBook._progress = book._progress;
+    newBook._read = book._read;
+    myLibrary.books.push(newBook);
   });
-
-  if (myBooks != null) {
-    myLibrary.books = myBooks;
-  }
 }
 
 function updateStorage() {
@@ -288,8 +297,10 @@ window.addEventListener('keydown', e => {
 
 // Runtime script initialization
 
+const myLibrary = new Library();
+
+renderGrid();
+
 setTimeout(() => {
   document.documentElement.classList.remove('no-animation');
-}, 0);
-const myLibrary = new Library();
-renderGrid();
+}, 500);
