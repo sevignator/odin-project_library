@@ -5,58 +5,63 @@ const editBookForm = document.querySelector('.js-edit-book-form');
 
 let lastEditedId = null;
 
-// Library constructor
+// Library class
 
-function Library() {
-  this.books = [];
-}
-Library.prototype = {
-  addBook: function (title, author, pages) {
+class Library {
+  constructor() {
+    this.books = [];
+  }
+
+  addBook(title, author, pages) {
     const newBook = new Book(title, author, pages);
     this.books.push(newBook);
-  },
-  removeBook: function (bookId) {
+  }
+
+  removeBook(bookId) {
     const bookIndex = this.books.findIndex(book => book.id === bookId);
     this.books.splice(bookIndex, 1);
-  },
-  findBook: function (bookId) {
+  }
+
+  findBook(bookId) {
     return this.books.find(book => book.id === bookId);
-  },
-};
+  }
+}
 
 // Book constructor definition
 
-function Book(title, author, pages) {
-  this.id = uuidv4();
-  this.title = title;
-  this.author = author;
-  this._pages = pages;
-  this._progress = 0;
-  this._read = false;
-}
-Book.prototype = {
-  info: function () {
+class Book {
+  constructor(title, author, pages) {
+    this.id = uuidv4();
+    this.title = title;
+    this.author = author;
+    this._pages = pages;
+    this._progress = 0;
+    this._read = false;
+  }
+
+  info() {
     const message = this.read ? 'has been read' : 'not read yet';
     return `${this.title} by ${this.author}, ${this.pages} pages, ${message}`;
-  },
-  updateProgress: function (page) {
+  }
+
+  updateProgress(page) {
     if (page > this.pages) return;
     this.progress = page;
-  },
-};
-Object.defineProperty(Book.prototype, 'pages', {
-  get() {
+  }
+
+  get pages() {
     return this._pages;
-  },
-  set(value) {
+  }
+
+  set pages(value) {
     this._pages = Number.parseInt(value);
-  },
-});
-Object.defineProperty(Book.prototype, 'progress', {
-  get() {
+  }
+
+  get progress() {
     return this._progress;
-  },
-  set(value) {
+  }
+
+  set progress(value) {
     if (value > this.pages) return;
     this._progress = Number.parseInt(value);
     if (this._progress === this.pages) {
@@ -64,8 +69,8 @@ Object.defineProperty(Book.prototype, 'progress', {
     } else {
       this._read = false;
     }
-  },
-});
+  }
+}
 
 // Card functions
 
