@@ -1,4 +1,4 @@
-# Restaurant Page project
+# Library project
 
 ## End result
 
